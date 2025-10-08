@@ -1,0 +1,15 @@
+{
+    "name": "student/quiz",
+    "autoload": {
+        "psr-4": {
+            "Student\\Quiz\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Your name",
+            "email": "example@example.com"
+        }
+    ],
+    "require": {}
+}
