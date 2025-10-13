@@ -1,1 +1,64 @@
 @import "bootstrap/scss/bootstrap";
+
+body {
+    height: 100vh;
+    background-color: #3A78A1;
+    background-image:
+        linear-gradient(#83ABC4 1px, transparent 1px),
+        linear-gradient(90deg, #83ABC4 1px, transparent 1px),
+        linear-gradient(#3A78A1 1px, transparent 1px),
+        linear-gradient(90deg, #3A78A1 1px, transparent 1px),
+        linear-gradient(#4E86AB 1px, transparent 1px),
+        linear-gradient(90deg, #4E86AB 1px, transparent 1px);
+    background-size:
+        100px 100px,
+        100px 100px,
+        5px 5px,
+        5px 5px,
+        20px 20px,
+        20px 20px;
+    background-position:
+        -1px -1px,
+        -1px -1px,
+        0 0,
+        0 0,
+        -1px -1px,
+        -1px -1px;
+}
+
+.paper {
+    background: #fff;
+    padding: 30px;
+    position: relative;
+}
+
+.paper,
+.paper::before,
+.paper::after {
+    /* Стили, чтобы отделить листы друг от друга */
+    box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.25);
+    border: 1px solid #bbb;
+}
+
+.paper::before,
+.paper::after {
+    content: "";
+    position: absolute;
+    height: 95%;
+    width: 99%;
+    background-color: #eee;
+}
+
+.paper::before {
+    right: 15px;
+    top: 0;
+    transform: rotate(-1deg);
+    z-index: -1;
+}
+
+.paper::after {
+    top: 5px;
+    right: -5px;
+    transform: rotate(1deg);
+    z-index: -2;
+}
