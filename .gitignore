@@ -3,3 +3,5 @@
 vendor/
 node_modules/
 package-lock.json
+public/assets/
+public/index.html

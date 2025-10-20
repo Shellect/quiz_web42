@@ -17,7 +17,7 @@ export default defineConfig({
 
   // Настройки сборки
   build: {
-    outDir: path.resolve(__dirname, 'public/js'),
+    outDir: path.resolve(__dirname, 'public'),
     emptyOutDir: true, // очищать выходную директорию перед сборкой
     sourcemap: true,
     minify: 'esbuild',
