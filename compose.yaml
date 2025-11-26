@@ -16,6 +16,7 @@ services:
       - ./.env
     volumes:
       - ./backend:/app
+      - ./.develop/php/xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
     networks: 
       - quiz-network
 

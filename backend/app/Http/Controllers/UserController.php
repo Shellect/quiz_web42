@@ -12,15 +12,15 @@ class UserController extends Controller
 {
     public function index(): JsonResponse
     {
-      
+
         return response()->json(User::all());
     }
 
     public function store(Request $request): JsonResponse
     {
         $validator = Validator::make($request->all(), [
-            'username' => 'required|unique:user',
-            'email' => 'email|required|unique:user',
+            'username' => 'required|unique:users',
+            'email' => 'email|required|unique:users',
             'password' => 'required'
         ]);
 
@@ -37,7 +37,7 @@ class UserController extends Controller
             'username' => $validated['username'],
             'email' => $validated['email'],
             'password_hash' => $hashedPassword
-            
+
         ]);
         return response()->json($user, 201);
     }
