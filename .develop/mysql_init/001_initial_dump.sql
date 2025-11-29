@@ -11,6 +11,8 @@ CREATE TABLE users (
     password_hash VARCHAR(255) NOT NULL,
     group_id INT,
     is_admin BOOLEAN DEFAULT FALSE,
+    created_at DATETIME,
+    updated_at DATETIME,
     FOREIGN KEY (group_id) REFERENCES `groups`(id)
 );
 
