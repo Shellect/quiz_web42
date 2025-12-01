@@ -9,10 +9,11 @@
     npm run build
 ```
 
-2. Не забудьте дать права на папку `public`
+2. Создайте папку `public` и убедитесь в доступности редактирования
 
 ```bash
-    sudo chown username:groupname public
+    mkdir public
+    chmod 755 public
 ```
 3. Установите зависимости для backend:
 
@@ -53,3 +54,5 @@
 ```cmd
     docker compose up -d
 ```
+
+4. Проверьте результат работы по адресу [http://localhost:8000](http://localhost:8000)

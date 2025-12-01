@@ -36,13 +36,9 @@ services:
       - quiz-network
 
   adminer:
-    image: adminer:4.8.1
-    ports:
-      - "8080:8080"
+    image: adminer:fastcgi
     environment:
       ADMINER_DEFAULT_SERVER: db
-      ADMINER_DEFAULT_USER: app_user
-      ADMINER_DEFAULT_HOST: db
       ADMINER_DESIGN: dracula
     networks:
       - quiz-network
