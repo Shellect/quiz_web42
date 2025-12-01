@@ -3,6 +3,10 @@
 namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -23,8 +27,42 @@ class Handler extends ExceptionHandler
      */
     public function register(): void
     {
-        $this->reportable(function (Throwable $e) {
-            //
+        $this->renderable(function (Throwable $e, Request $request) {
+            return $this->handleApiException($e);
         });
+    }
+
+    /**
+     * Handle API exceptions and always return JSON.
+     */
+    protected function handleApiException(Throwable $e): JsonResponse
+    {
+        if ($e instanceof ValidationException) {
+            return response()->json([
+                'message' => 'Validation failed',
+                'errors' => $e->errors(),
+            ], 422);
+        }
+
+        if ($e instanceof HttpException) {
+            return response()->json([
+                'message' => $e->getMessage() ?: 'HTTP Error',
+            ], $e->getStatusCode());
+        }
+
+        $statusCode = method_exists($e, 'getStatusCode') ? $e->getStatusCode() : 500;
+
+        $response = [
+            'message' => $e->getMessage() ?: 'Server Error',
+        ];
+
+        if (config('app.debug')) {
+            $response['exception'] = get_class($e);
+            $response['file'] = $e->getFile();
+            $response['line'] = $e->getLine();
+            $response['trace'] = collect($e->getTrace())->take(10)->toArray();
+        }
+
+        return response()->json($response, $statusCode);
     }
 }
