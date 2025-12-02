@@ -11,10 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('questions', function (Blueprint $table) {
+        Schema::create('groups', function (Blueprint $table) {
             $table->id();
-            $table->string('question_text', 255)->unique();
-            $table->foreignId('category_id')->nullable()->constrained('categories')->nullOnDelete();
+            $table->string('group_name', 100)->unique();
+            $table->string('description', 100)->nullable();
         });
     }
 
@@ -23,6 +23,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('questions');
+        Schema::dropIfExists('groups');
     }
 };
+

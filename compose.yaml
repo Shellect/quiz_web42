@@ -8,6 +8,9 @@ services:
       - ./.develop/nginx.conf:/etc/nginx/conf.d/default.conf
     networks: 
       - quiz-network
+    depends_on:
+      php-fpm:
+        condition: service_started
   
   php-fpm:
     build: .
@@ -19,6 +22,9 @@ services:
       - ./.develop/php/xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
     networks: 
       - quiz-network
+    depends_on:
+      db:
+        condition: service_healthy
 
   db:
     image: mysql:8.0.44-debian
@@ -29,11 +35,16 @@ services:
       MYSQL_PASSWORD: app_password
     volumes:
       - mysql_data:/var/lib/mysql
-      - ./.develop/mysql_init:/docker-entrypoint-initdb.d
     ports:
       - "3306:3306"
     networks:
       - quiz-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-prootpassword"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
 
   adminer:
     image: adminer:fastcgi
