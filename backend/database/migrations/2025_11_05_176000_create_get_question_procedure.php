@@ -16,7 +16,7 @@ return new class extends Migration
             DETERMINISTIC
             BEGIN
                 WITH numbered_questions AS (
-                    SELECT 
+                    SELECT
                         id,
                         question_text,
                         category_id,

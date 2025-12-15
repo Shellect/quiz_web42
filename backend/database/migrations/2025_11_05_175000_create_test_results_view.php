@@ -11,8 +11,8 @@ return new class extends Migration
     public function up(): void
     {
         DB::statement("
-            CREATE VIEW test_results AS 
-            SELECT 
+            CREATE VIEW test_results AS
+            SELECT
                 u.id AS user_id,
                 u.username,
                 c.id AS category_id,
@@ -21,7 +21,7 @@ return new class extends Migration
                 SUM(qo.is_correct) AS scores,
                 ROUND(
                     IF(
-                        COUNT(q.id) > 0, 
+                        COUNT(q.id) > 0,
                         SUM(qo.is_correct) * 100.0 / COUNT(q.id),
                         0
                     )
