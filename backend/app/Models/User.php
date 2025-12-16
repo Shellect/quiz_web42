@@ -26,6 +26,14 @@ class User extends Authenticatable
         'password_hash',
     ];
 
+    /**
+     * Get the password for authentication.
+     */
+    public function getAuthPassword(): string
+    {
+        return $this->password_hash;
+    }
+
     protected $casts = [
         'is_admin' => 'boolean'
     ];

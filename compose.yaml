@@ -1,6 +1,7 @@
 services:
   web:
     image: nginx:stable-alpine3.21-perl
+    container_name: quiz-nginx
     ports:
       - "8000:80"
     volumes:
@@ -10,26 +11,33 @@ services:
       - quiz-network
     depends_on:
       php-fpm:
-        condition: service_started
+        condition: service_healthy
   
   php-fpm:
     build:
       context: .
       dockerfile: .docker/Dockerfile
-    container_name: laravel
+    container_name: quiz-laravel
     env_file:
       - ./.env
     volumes:
       - ./backend:/app
       - ./.docker/php/xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
-    networks: 
+    networks:
       - quiz-network
     depends_on:
       db:
         condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "SCRIPT_NAME=/ping SCRIPT_FILENAME=/ping REQUEST_METHOD=GET cgi-fcgi -bind -connect 127.0.0.1:9000 || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 30s
 
   db:
     image: mysql:8.0.44-debian
+    container_name: quiz-mysql
     environment:
       MYSQL_ROOT_PASSWORD: rootpassword
       MYSQL_DATABASE: app_db
@@ -50,6 +58,7 @@ services:
 
   adminer:
     image: adminer:fastcgi
+    container_name: quiz-adminer
     environment:
       ADMINER_DEFAULT_SERVER: db
       ADMINER_DESIGN: dracula

@@ -12,7 +12,12 @@ export default defineConfig({
   server: {
     port: 3000,
     open: true, // автоматически открывать браузер
-    cors: true,
+    proxy: {
+      '/api': {
+        target: 'http://localhost:8000',
+        changeOrigin: true,
+      },
+    },
   },
 
   // Настройки сборки
@@ -28,7 +33,6 @@ export default defineConfig({
       scss: {
         silenceDeprecations: [
           'import',
-          'mixed-decls',
           'color-functions',
           'global-builtin',
         ],

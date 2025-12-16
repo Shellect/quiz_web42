@@ -1,8 +1,9 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\QuizController;
-use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
+use Laravel\Sanctum\Http\Controllers\CsrfCookieController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,14 +16,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get(
-    '/quiz',
-    [
-        QuizController::class,
-        'getQuestionByNumber'
-    ]
-);
+Route::get('/csrf-cookie', [CsrfCookieController::class, 'show']);
 
- Route::middleware('auth:sanctum')->group(function () {
-     Route::resource('/user', UserController::class);
- });
+Route::get('/quiz', [QuizController::class, 'getQuestionByNumber']);
+
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/user', [AuthController::class, 'index']);
+    Route::post('/logout', [AuthController::class, 'logout']);
+});
+
+Route::post('/login', [AuthController::class, 'login']);
+Route::post('/register', [AuthController::class, 'register']);
