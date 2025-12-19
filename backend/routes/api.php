@@ -18,11 +18,10 @@ use Laravel\Sanctum\Http\Controllers\CsrfCookieController;
 
 Route::get('/csrf-cookie', [CsrfCookieController::class, 'show']);
 
-Route::get('/quiz', [QuizController::class, 'getQuestionByNumber']);
-
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/user', [AuthController::class, 'index']);
     Route::post('/logout', [AuthController::class, 'logout']);
+    Route::get('/quiz', [QuizController::class, 'getQuestionByNumber']);
 });
 
 Route::post('/login', [AuthController::class, 'login']);

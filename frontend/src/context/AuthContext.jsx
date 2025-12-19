@@ -5,24 +5,22 @@ const AuthContext = createContext(null);
 export function AuthProvider({ children }) {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
-
-    useEffect(() => {
-        const fetchUser = async () => {
-            try {
-                const response = await fetch("/api/v1/user");
-                if (response.ok) {
-                    setUser(await response.json());
-                } else {
-                    setUser(null);
-                }
-            } catch {
+    const fetchUser = async () => {
+        try {
+            const response = await fetch("/api/v1/user");
+            if (response.ok) {
+                setUser(await response.json());
+            } else {
                 setUser(null);
-            } finally {
-                setLoading(false);
             }
-        };
-        fetchUser();
-    }, []);
+        } catch {
+            setUser(null);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    useEffect(fetchUser, []);
 
     return (
         <AuthContext.Provider value={{ user, loading, setUser }}>
