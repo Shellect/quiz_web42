@@ -42,7 +42,7 @@ export default function Navbar() {
                             </>
                         ) : (
                             <>
-                                <span className="me-3">{user.name}</span>
+                                <span className="me-3">{user.username}</span>
                                 <button
                                     className="btn btn-outline-secondary btn-sm"
                                     onClick={handleLogout}

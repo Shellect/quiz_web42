@@ -50,6 +50,7 @@ class Kernel extends HttpKernel
     protected $middlewareGroups = [
         'api' => [
             ForceJsonResponse::class,
+            \Illuminate\Session\Middleware\StartSession::class,
             EnsureFrontendRequestsAreStateful::class,
             ThrottleRequests::class.':api',
             SubstituteBindings::class,
